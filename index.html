@@ -12,8 +12,6 @@
     :root{
       --bg0:#070809;
       --bg1:#0b0d10;
-      --card:#101317;
-      --card2:#0d1014;
       --stroke: rgba(255,255,255,.10);
       --stroke2: rgba(255,255,255,.16);
       --text:#ececec;
@@ -24,6 +22,9 @@
       --radius2: 14px;
       --max: 1120px;
       --pad: 22px;
+      --ok: rgba(155, 255, 199, .85);
+      --warn: rgba(255, 214, 128, .85);
+      --bad: rgba(255, 142, 142, .85);
     }
 
     *{ box-sizing:border-box; }
@@ -49,6 +50,9 @@
     }
 
     a{ color: inherit; text-decoration:none; }
+    a.ext{ text-decoration: underline; text-decoration-color: rgba(255,255,255,.25); text-underline-offset: 2px; }
+    a.ext:hover{ text-decoration-color: rgba(255,255,255,.55); }
+
     .wrap{ width:min(var(--max), calc(100% - 2*var(--pad))); margin:0 auto; }
 
     /* NAV */
@@ -73,11 +77,14 @@
       opacity:.95;
     }
     .brand img{ width:30px; height:30px; }
+
     .navlinks{
-      display:flex; align-items:center; gap:18px;
+      display:flex; align-items:center; gap:10px;
       font-size:14px;
       color: var(--muted);
       white-space:nowrap;
+      flex-wrap:wrap;
+      justify-content:center;
     }
     .navlinks a{
       padding:10px 10px;
@@ -85,9 +92,8 @@
       transition: .15s ease;
     }
     .navlinks a:hover{ background: rgba(255,255,255,.06); color: var(--text); }
-    .navcta{
-      display:flex; align-items:center; gap:10px;
-    }
+
+    .navcta{ display:flex; align-items:center; gap:10px; }
     .search{
       display:flex; align-items:center; gap:10px;
       padding:10px 12px;
@@ -95,7 +101,7 @@
       background: rgba(255,255,255,.04);
       border-radius: 14px;
       color: var(--muted2);
-      min-width: 220px;
+      min-width: 240px;
     }
     .search input{
       width:100%;
@@ -119,20 +125,18 @@
     .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.08); }
 
     /* HERO */
-    .hero{
-      padding: 68px 0 30px;
-    }
+    .hero{ padding: 68px 0 22px; }
     .hero h1{
       margin:0;
       font-size: clamp(38px, 4.5vw, 64px);
       line-height:1.02;
       letter-spacing:-0.02em;
       font-weight:600;
-      max-width: 820px;
+      max-width: 860px;
     }
     .hero p{
       margin:18px 0 0;
-      max-width: 760px;
+      max-width: 860px;
       font-size: 16px;
       color: var(--muted);
       line-height: 1.55;
@@ -143,8 +147,24 @@
       flex-wrap:wrap;
     }
 
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 16px;
+      max-width: 100%;
+      flex-wrap:wrap;
+    }
+    .pill b{ color: var(--text); font-weight:600; }
+
     .section-title{
-      margin-top: 36px;
+      margin-top: 28px;
       color: var(--muted2);
       font-size: 12px;
       letter-spacing:.22em;
@@ -160,10 +180,7 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-
-    .acc-item{
-      border-top: 1px solid rgba(255,255,255,.07);
-    }
+    .acc-item{ border-top: 1px solid rgba(255,255,255,.07); }
     .acc-item:first-child{ border-top:none; }
 
     .acc-head{
@@ -192,10 +209,7 @@
       color: var(--muted);
       flex: 0 0 auto;
     }
-    .acc-title{
-      display:flex; flex-direction:column; gap:4px;
-      min-width: 0;
-    }
+    .acc-title{ display:flex; flex-direction:column; gap:4px; min-width: 0; }
     .acc-title span{ font-size: 15px; }
     .acc-title small{
       color: var(--muted2);
@@ -203,7 +217,7 @@
       font-weight:400;
       letter-spacing:.02em;
       overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-      max-width: 65ch;
+      max-width: 80ch;
     }
     .chev{
       width:36px; height:36px;
@@ -216,10 +230,7 @@
       flex: 0 0 auto;
     }
 
-    .acc-body{
-      display:none;
-      padding: 0 18px 18px;
-    }
+    .acc-body{ display:none; padding: 0 18px 18px; }
     .acc-item.open .acc-body{ display:block; }
     .acc-item.open .chev{ transform: rotate(180deg); }
 
@@ -244,6 +255,12 @@
       color: var(--muted);
       font-weight:600;
     }
+    .subcard p{
+      margin:8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
     .subcard ul{
       margin:10px 0 0;
       padding:0 0 0 16px;
@@ -252,40 +269,36 @@
       font-size: 14px;
     }
     .subcard li{ margin:6px 0; }
-    .subcard a:hover{ text-decoration: underline; }
 
-    /* Bottom cards */
-    .cards{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: repeat(4, minmax(0,1fr));
-      gap: 14px;
-    }
-    .card{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(16,19,23,.38);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: 0 18px 48px rgba(0,0,0,.45);
-    }
-    .card .top{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      margin-bottom: 10px;
-    }
-    .card h3{
-      margin:0;
-      font-size: 15px;
-      font-weight:600;
-      letter-spacing:.02em;
-    }
-    .card ul{
-      margin: 10px 0 0;
-      padding: 0 0 0 16px;
+    .note{
+      margin-top: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      border-radius: 14px;
+      padding: 12px 12px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.55;
     }
-    .card li{ margin:6px 0; }
+    .note b{ color: var(--text); }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      font-size: 12px;
+      margin-right: 8px;
+      margin-top: 8px;
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .badge.ok{ color: var(--ok); border-color: rgba(155,255,199,.22); background: rgba(155,255,199,.07); }
+    .badge.warn{ color: var(--warn); border-color: rgba(255,214,128,.22); background: rgba(255,214,128,.07); }
+    .badge.bad{ color: var(--bad); border-color: rgba(255,142,142,.22); background: rgba(255,142,142,.07); }
 
     footer{
       padding: 46px 0 56px;
@@ -301,15 +314,12 @@
     footer a{ color: var(--muted); }
     footer a:hover{ color: var(--text); text-decoration: underline; }
 
-    /* Responsive */
     @media (max-width: 980px){
       .grid{ grid-template-columns: 1fr; }
-      .cards{ grid-template-columns: 1fr 1fr; }
       .search{ display:none; }
+      .navlinks{ display:none; }
     }
     @media (max-width: 620px){
-      .navlinks{ display:none; }
-      .cards{ grid-template-columns: 1fr; }
       .hero{ padding-top: 46px; }
     }
   </style>
@@ -323,11 +333,19 @@
       </a>
 
       <nav class="navlinks" aria-label="Primary">
-        <a href="#index">Explore the Index</a>
+        <a href="#index">Index</a>
         <a href="#water">Water</a>
         <a href="#food">Food</a>
         <a href="#energy">Energy</a>
+        <a href="#comms">Comms</a>
+        <a href="#medical">Medical</a>
         <a href="#digital">Digital</a>
+        <a href="#finance">Finance</a>
+        <a href="#mobility">Mobility</a>
+        <a href="#security">Home</a>
+        <a href="#community">Community</a>
+        <a href="#signal">Signal</a>
+        <a href="#personal">Personal</a>
       </nav>
 
       <div class="navcta">
@@ -335,7 +353,7 @@
           <span aria-hidden="true">⌕</span>
           <input id="search" placeholder="Search topics…" autocomplete="off" />
         </div>
-        <a class="btn" href="#index">Explore the Index</a>
+        <a class="btn" href="#index">Explore</a>
       </div>
     </div>
   </header>
@@ -344,23 +362,29 @@
     <section class="hero">
       <h1>Preparedness without panic,<br/>structure without chaos.<br/>Continuity by design.</h1>
       <p>
-        A practical index for resilience across water, food, energy, digital security, and finance — without noise, fear, or ideology.
+        Civil Continuity is a calm, expandable resilience index: practical gear, verified resources, and operational checklists across
+        twelve pillars — designed for real disruption (wildfire, storms, outages, job loss, information fog).
       </p>
       <div class="actions">
         <a class="btn" href="#index">Explore the Index</a>
-        <a class="btn" href="#signal" style="background:rgba(255,255,255,.03);">View Signal</a>
+        <a class="btn" href="#signal" style="background:rgba(255,255,255,.03);">Signal & Dashboards</a>
       </div>
 
-      <div class="section-title">Explore Index</div>
+      <div class="pill">
+        <b>Mission</b> Reduce fragility. Increase optionality. Build continuity under constraint.
+      </div>
+
+      <div class="section-title">Resilience Index</div>
       <div id="index" class="panel" role="region" aria-label="Resilience index">
-        <!-- WATER -->
-        <div class="acc-item open" id="water" data-tags="water filtration purification storage tds testing monitoring">
+
+        <!-- I. WATER -->
+        <div class="acc-item open" id="water" data-tags="water filtration purification storage tds testing monitoring rain catchment well">
           <button class="acc-head" type="button" aria-expanded="true">
             <div class="acc-left">
               <div class="icon">💧</div>
               <div class="acc-title">
-                <span>Water</span>
-                <small>Filtration, storage, and testing — fundamentals first.</small>
+                <span>I. Water Security</span>
+                <small>Filtration, storage, and testing. Start here.</small>
               </div>
             </div>
             <div class="chev" aria-hidden="true">⌄</div>
@@ -368,45 +392,50 @@
           <div class="acc-body">
             <div class="grid">
               <div class="subcard">
-                <h4>Filtration</h4>
+                <h4>Filtration &amp; Purification</h4>
                 <ul>
-                  <li><a href="#">Gravity-fed filters</a></li>
-                  <li><a href="#">Portable water filters</a></li>
-                  <li><a href="#">UV purification devices</a></li>
-                  <li><a href="#">Chemical tablets</a></li>
-                  <li><a href="#">Under-sink filtration (low plastic)</a></li>
+                  <li>Gravity-fed filters (Berkey / ProOne / British Berkefeld)</li>
+                  <li>Portable filters (Sawyer / Katadyn / MSR)</li>
+                  <li>UV purification (SteriPen)</li>
+                  <li>Chemical purification (Aquamira / Micropur)</li>
+                  <li>Under-sink filtration (Aquasana / APEC RO)</li>
+                  <li>Stainless steel storage tanks (where feasible)</li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Storage</h4>
                 <ul>
-                  <li><a href="#">Long-term storage containers</a></li>
-                  <li><a href="#">Collapsible containers</a></li>
-                  <li><a href="#">Rain catchment systems</a></li>
-                  <li><a href="#">Water barrels / bladders</a></li>
-                  <li><a href="#">Stainless storage (where feasible)</a></li>
+                  <li>Long-term containers (Scepter / WaterBrick / food-grade drums)</li>
+                  <li>Collapsible containers (MSR Dromedary / Hydrapak)</li>
+                  <li>Rain catchment systems (first flush + prefilter)</li>
+                  <li>Water barrels</li>
+                  <li>Water bladders (WaterBOB for short-term)</li>
                 </ul>
               </div>
               <div class="subcard">
-                <h4>Testing</h4>
+                <h4>Testing &amp; Monitoring</h4>
                 <ul>
-                  <li><a href="#">Water test kits</a></li>
-                  <li><a href="#">Digital TDS meters</a></li>
-                  <li><a href="#">Well monitoring tools</a></li>
+                  <li>Water test kits (Watersafe / LaMotte)</li>
+                  <li>Digital TDS meters (HM Digital)</li>
+                  <li>Well monitoring tools (level + flow awareness)</li>
                 </ul>
               </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Gravity filter + stored water + basic test kit.
+              <span class="badge warn">Reality</span> TDS is not “safe/unsafe.” It’s one signal.
             </div>
           </div>
         </div>
 
-        <!-- FOOD -->
-        <div class="acc-item" id="food" data-tags="food storage preservation mylar oxygen absorbers dehydrated freeze dried cooking off grid">
+        <!-- II. FOOD -->
+        <div class="acc-item" id="food" data-tags="food storage preservation mylar oxygen absorbers dehydrated freeze dried cooking off grid canning fermentation">
           <button class="acc-head" type="button" aria-expanded="false">
             <div class="acc-left">
               <div class="icon">🌾</div>
               <div class="acc-title">
-                <span>Food</span>
-                <small>Storage, preservation, and off-grid cooking.</small>
+                <span>II. Food Resilience</span>
+                <small>Calories, shelf life, rotation, and cookability.</small>
               </div>
             </div>
             <div class="chev" aria-hidden="true">⌄</div>
@@ -416,45 +445,50 @@
               <div class="subcard">
                 <h4>Long-Term Storage</h4>
                 <ul>
-                  <li><a href="#">Freeze-dried meals</a></li>
-                  <li><a href="#">Dehydrated staples</a></li>
-                  <li><a href="#">Bulk grains &amp; legumes</a></li>
-                  <li><a href="#">Mylar bag systems</a></li>
-                  <li><a href="#">Oxygen absorbers</a></li>
+                  <li>Freeze-dried meals (Mountain House / Peak Refuel)</li>
+                  <li>Dehydrated staples (Augason Farms / Harmony House)</li>
+                  <li>Bulk grains &amp; legumes (white rice, beans, oats, wheat)</li>
+                  <li>Mylar bag systems (5 mil + heat sealer)</li>
+                  <li>Oxygen absorbers (PackFreshUSA sizing by volume)</li>
+                  <li>Food-grade buckets (Gamma lids for rotation)</li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Preservation</h4>
                 <ul>
-                  <li><a href="#">Pressure canners</a></li>
-                  <li><a href="#">Dehydrators</a></li>
-                  <li><a href="#">Fermentation kits</a></li>
-                  <li><a href="#">Vacuum sealers</a></li>
-                  <li><a href="#">Root cellar supplies</a></li>
+                  <li>Pressure canners (All American / Presto)</li>
+                  <li>Dehydrators (Excalibur / COSORI)</li>
+                  <li>Fermentation kits (Masontops / crocks)</li>
+                  <li>Vacuum sealers (Nesco VS-12 / FoodSaver)</li>
+                  <li>Root cellar supplies (temp + humidity management)</li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Cooking Off-Grid</h4>
                 <ul>
-                  <li><a href="#">Rocket stoves</a></li>
-                  <li><a href="#">Butane/propane camp stoves</a></li>
-                  <li><a href="#">Solar ovens</a></li>
-                  <li><a href="#">Cast iron cookware</a></li>
-                  <li><a href="#">Wood-fired cooking</a></li>
+                  <li>Rocket stoves (EcoZoom)</li>
+                  <li>Butane/propane stoves (Camp Chef / Coleman)</li>
+                  <li>Solar ovens (Sun Oven / GoSun)</li>
+                  <li>Cast iron cookware (Lodge)</li>
+                  <li>Wood-fired cooking systems (cookstove where legal)</li>
                 </ul>
               </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Bulk staples sealed + modest freeze-dried buffer + dual-fuel stove.
+              <span class="badge warn">Avoid</span> Storage without a cooking plan.
             </div>
           </div>
         </div>
 
-        <!-- ENERGY -->
-        <div class="acc-item" id="energy" data-tags="energy power redundancy backup solar generators batteries lighting">
+        <!-- III. ENERGY -->
+        <div class="acc-item" id="energy" data-tags="energy power redundancy backup solar generators batteries lighting inverter generator whole home">
           <button class="acc-head" type="button" aria-expanded="false">
             <div class="acc-left">
               <div class="icon">⚡</div>
               <div class="acc-title">
-                <span>Energy</span>
-                <small>Backup power, solar, and lighting.</small>
+                <span>III. Power &amp; Energy Redundancy</span>
+                <small>Multiple inputs: fuel + solar + storage + load discipline.</small>
               </div>
             </div>
             <div class="chev" aria-hidden="true">⌄</div>
@@ -464,39 +498,141 @@
               <div class="subcard">
                 <h4>Backup Power</h4>
                 <ul>
-                  <li><a href="#">Portable power stations</a></li>
-                  <li><a href="#">Inverter generators</a></li>
-                  <li><a href="#">Whole-home backup systems</a></li>
+                  <li>Portable power stations (EcoFlow / Bluetti / Jackery)</li>
+                  <li>Inverter generators (Honda / Yamaha / Champion)</li>
+                  <li>Dual-fuel generators (propane + gas for optionality)</li>
+                  <li>Whole-home systems (Generac / Kohler) + fuel planning</li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Solar</h4>
                 <ul>
-                  <li><a href="#">Foldable solar panels</a></li>
-                  <li><a href="#">Charge controllers</a></li>
-                  <li><a href="#">Deep cycle / lithium banks</a></li>
+                  <li>Foldable panels (Renogy / EcoFlow)</li>
+                  <li>Rooftop kits (modular, non-proprietary where possible)</li>
+                  <li>Charge controllers (Victron MPPT)</li>
+                  <li>Deep cycle batteries (AGM) vs Lithium (LiFePO4)</li>
+                  <li>Lithium banks (EG4 / Battle Born)</li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Lighting</h4>
                 <ul>
-                  <li><a href="#">Rechargeable lanterns</a></li>
-                  <li><a href="#">Headlamps</a></li>
-                  <li><a href="#">Emergency LED lighting</a></li>
+                  <li>Rechargeable lanterns (Goal Zero / Streamlight)</li>
+                  <li>Headlamps (Petzl / Black Diamond)</li>
+                  <li>Emergency LED lighting (USB strips / 12V bars)</li>
                 </ul>
               </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Small inverter generator + modest battery station + LED lighting.
+              <span class="badge warn">Reality</span> “Solar generator” is a bundle term — compare components separately.
             </div>
           </div>
         </div>
 
-        <!-- DIGITAL -->
-        <div class="acc-item" id="digital" data-tags="digital privacy security encrypted messaging vpn password manager hardware key backups self hosting">
+        <!-- IV. COMMUNICATION -->
+        <div class="acc-item" id="comms" data-tags="communication radios gmrs frs cb ham satellite mesh noaa alerts whistle signal mirror">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">📡</div>
+              <div class="acc-title">
+                <span>IV. Communication Continuity</span>
+                <small>Redundant channels: local, long-range, and alerts.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>Short Range</h4>
+                <ul>
+                  <li>GMRS radios (licensed, higher power)</li>
+                  <li>FRS radios (license-free)</li>
+                  <li>CB radios (vehicle and base)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Long Range</h4>
+                <ul>
+                  <li>Ham radios (license + practice)</li>
+                  <li>Satellite communicators (Garmin inReach / Zoleo)</li>
+                  <li>Mesh networking devices (for constrained comms)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Emergency Alerts</h4>
+                <ul>
+                  <li>NOAA weather radios</li>
+                  <li>Signal mirrors</li>
+                  <li>Whistles</li>
+                </ul>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> NOAA radio + GMRS for local coordination.
+              <span class="badge warn">Reality</span> The tool is useless without a plan and practice.
+            </div>
+          </div>
+        </div>
+
+        <!-- V. MEDICAL -->
+        <div class="acc-item" id="medical" data-tags="medical first aid trauma tourniquet ifak wound care meds storage cpr wilderness medicine cert stop the bleed">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">🩺</div>
+              <div class="acc-title">
+                <span>V. Medical &amp; Health Preparedness</span>
+                <small>Likelihood-based: infection, dehydration, continuity of meds, then trauma.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>First Aid</h4>
+                <ul>
+                  <li>Trauma kits (North American Rescue / Rescue Essentials)</li>
+                  <li>Tourniquets (CAT Gen 7 / SOF-T Wide — avoid counterfeits)</li>
+                  <li>IFAKs (build after training)</li>
+                  <li>Wound care supplies (gauze, irrigation, tape, dressings)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Preventative / Continuity</h4>
+                <ul>
+                  <li>Water-resistant medical storage (hard case + silica)</li>
+                  <li>Medication continuity planning</li>
+                  <li>Electrolytes + oral rehydration salts</li>
+                  <li>Baseline diagnostics (thermometer, basic monitoring)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Training (High ROI)</h4>
+                <ul>
+                  <li><a class="ext" href="https://www.redcross.org/take-a-class/cpr" target="_blank" rel="noopener">American Red Cross: CPR</a></li>
+                  <li><a class="ext" href="https://cpr.heart.org/" target="_blank" rel="noopener">AHA CPR / AED</a></li>
+                  <li><a class="ext" href="https://www.stopthebleed.org/" target="_blank" rel="noopener">Stop The Bleed</a></li>
+                  <li><a class="ext" href="https://community.fema.gov/PreparednessCommunity/s/cert-trainings?language=en_US" target="_blank" rel="noopener">FEMA CERT</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> CPR + Stop The Bleed + solid wound care kit.
+              <span class="badge warn">Reality</span> Trauma gear without training is a liability.
+            </div>
+          </div>
+        </div>
+
+        <!-- VI. DIGITAL -->
+        <div class="acc-item" id="digital" data-tags="digital privacy security signal proton mullvad vpn password manager yubikey backups nas veracrypt bitlocker filevault tor nextdns">
           <button class="acc-head" type="button" aria-expanded="false">
             <div class="acc-left">
               <div class="icon">🔒</div>
               <div class="acc-title">
-                <span>Digital Sovereignty</span>
-                <small>Secure communication, privacy tools, and local control.</small>
+                <span>VI. Digital Security &amp; Privacy</span>
+                <small>Continuity under compromise: encryption, auth, backups, and minimal data exhaust.</small>
               </div>
             </div>
             <div class="chev" aria-hidden="true">⌄</div>
@@ -506,40 +642,47 @@
               <div class="subcard">
                 <h4>Secure Communication</h4>
                 <ul>
-                  <li><a href="#">Encrypted messaging</a></li>
-                  <li><a href="#">Encrypted email</a></li>
-                  <li><a href="#">Private video calls</a></li>
+                  <li><a class="ext" href="https://signal.org/" target="_blank" rel="noopener">Signal</a></li>
+                  <li><a class="ext" href="https://proton.me/mail" target="_blank" rel="noopener">Proton Mail</a></li>
+                  <li><a class="ext" href="https://jitsi.org/" target="_blank" rel="noopener">Jitsi</a></li>
                 </ul>
               </div>
               <div class="subcard">
-                <h4>Privacy</h4>
+                <h4>Browsing Privacy</h4>
                 <ul>
-                  <li><a href="#">VPN providers</a></li>
-                  <li><a href="#">Privacy-first browsers</a></li>
-                  <li><a href="#">DNS encryption</a></li>
+                  <li><a class="ext" href="https://mullvad.net/" target="_blank" rel="noopener">Mullvad VPN</a></li>
+                  <li><a class="ext" href="https://www.ivpn.net/" target="_blank" rel="noopener">IVPN</a></li>
+                  <li><a class="ext" href="https://nextdns.io/" target="_blank" rel="noopener">NextDNS</a></li>
+                  <li><a class="ext" href="https://quad9.net/" target="_blank" rel="noopener">Quad9 DNS</a></li>
+                  <li><a class="ext" href="https://www.torproject.org/" target="_blank" rel="noopener">Tor Browser</a></li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Data Security</h4>
                 <ul>
-                  <li><a href="#">Hardware security keys</a></li>
-                  <li><a href="#">Password managers</a></li>
-                  <li><a href="#">Local backups</a></li>
-                  <li><a href="#">Secure cloud alternatives</a></li>
+                  <li>Full-disk encryption (FileVault / BitLocker)</li>
+                  <li><a class="ext" href="https://www.yubico.com/" target="_blank" rel="noopener">YubiKey (buy two)</a></li>
+                  <li><a class="ext" href="https://bitwarden.com/" target="_blank" rel="noopener">Bitwarden</a> / <a class="ext" href="https://1password.com/" target="_blank" rel="noopener">1Password</a></li>
+                  <li>Local backups (external SSD rotation, NAS)</li>
+                  <li><a class="ext" href="https://proton.me/drive" target="_blank" rel="noopener">Proton Drive</a> / <a class="ext" href="https://cryptomator.org/" target="_blank" rel="noopener">Cryptomator</a></li>
                 </ul>
               </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Password manager + security key + full-disk encryption + backups.
+              <span class="badge warn">Reality</span> VPN ≠ anonymity. It’s transport privacy.
             </div>
           </div>
         </div>
 
-        <!-- FINANCE -->
-        <div class="acc-item" id="finance" data-tags="finance hard assets precious metals safes banking income diversification remote jobs freelance">
+        <!-- VII. FINANCE -->
+        <div class="acc-item" id="finance" data-tags="finance resilience cash emergency fund precious metals apmex jm bullion credit unions remote jobs freelance etsy gumroad">
           <button class="acc-head" type="button" aria-expanded="false">
             <div class="acc-left">
               <div class="icon">⟡</div>
               <div class="acc-title">
-                <span>Financial Resilience</span>
-                <small>Hard assets, banking alternatives, and income diversification.</small>
+                <span>VII. Financial Resilience</span>
+                <small>Liquidity, diversification, and income continuity. No ideology.</small>
               </div>
             </div>
             <div class="chev" aria-hidden="true">⌄</div>
@@ -549,87 +692,310 @@
               <div class="subcard">
                 <h4>Hard Assets</h4>
                 <ul>
-                  <li><a href="#">Precious metals dealers</a></li>
-                  <li><a href="#">Secure storage options</a></li>
-                  <li><a href="#">Fireproof safes</a></li>
+                  <li><a class="ext" href="https://www.apmex.com/" target="_blank" rel="noopener">APMEX</a></li>
+                  <li><a class="ext" href="https://www.jmbullion.com/" target="_blank" rel="noopener">JM Bullion</a></li>
+                  <li><a class="ext" href="https://sdbullion.com/" target="_blank" rel="noopener">SD Bullion</a></li>
+                  <li>Fireproof safes (AMSEC / Fort Knox / Liberty)</li>
                 </ul>
               </div>
               <div class="subcard">
                 <h4>Alternative Banking</h4>
                 <ul>
-                  <li><a href="#">Credit unions</a></li>
-                  <li><a href="#">International banking guides</a></li>
-                  <li><a href="#">Offshore account resources</a></li>
+                  <li>Credit unions (member-owned diversification)</li>
+                  <li>International banking guides (legal, compliant)</li>
+                  <li>Offshore resources (educational only; comply with reporting)</li>
                 </ul>
               </div>
               <div class="subcard">
-                <h4>Income</h4>
+                <h4>Income Diversification</h4>
                 <ul>
-                  <li><a href="#">Remote job boards</a></li>
-                  <li><a href="#">Freelance platforms</a></li>
-                  <li><a href="#">Side-hustle marketplaces</a></li>
+                  <li><a class="ext" href="https://weworkremotely.com/" target="_blank" rel="noopener">We Work Remotely</a></li>
+                  <li><a class="ext" href="https://remote.co/remote-jobs/" target="_blank" rel="noopener">Remote.co</a></li>
+                  <li><a class="ext" href="https://www.flexjobs.com/" target="_blank" rel="noopener">FlexJobs</a></li>
+                  <li><a class="ext" href="https://wellfound.com/" target="_blank" rel="noopener">Wellfound</a></li>
+                  <li><a class="ext" href="https://www.upwork.com/" target="_blank" rel="noopener">Upwork</a> / <a class="ext" href="https://www.fiverr.com/" target="_blank" rel="noopener">Fiverr</a></li>
                 </ul>
               </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Emergency fund + two institutions + one extra income stream.
+              <span class="badge warn">Reality</span> Portability + liquidity beat “apocalypse assets.”
+            </div>
+          </div>
+        </div>
+
+        <!-- VIII. MOBILITY -->
+        <div class="acc-item" id="mobility" data-tags="mobility evacuation go bag backpack jump starter compressor fuel storage roadside documents passport redundancy">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">🧭</div>
+              <div class="acc-title">
+                <span>VIII. Mobility &amp; Evacuation</span>
+                <small>Speed, organization, legality. Evac failures are usually vehicle + documents.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>Go-Bags</h4>
+                <ul>
+                  <li>Backpacks (Osprey / GORUCK / Mystery Ranch — consider “low profile”)</li>
+                  <li>Travel medical kits (Adventure Medical Kits + compact bleeding control)</li>
+                  <li>Portable document storage (fire + water resistant)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Vehicle Readiness</h4>
+                <ul>
+                  <li>Jump starters (NOCO)</li>
+                  <li>Portable air compressors (VIAIR)</li>
+                  <li>Fuel storage (Wavian / Scepter; follow local rules)</li>
+                  <li>Emergency roadside kits (triangles, tools, tow strap)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Documentation</h4>
+                <ul>
+                  <li>Waterproof document organizers</li>
+                  <li>Passport storage solutions</li>
+                  <li>Identity redundancy (copies + encrypted digital)</li>
+                </ul>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Light go-bag + charged jump starter + full tank habit.
+              <span class="badge warn">Reality</span> Overpacking slows evacuation and causes injury.
+            </div>
+          </div>
+        </div>
+
+        <!-- IX. HOME SECURITY -->
+        <div class="acc-item" id="security" data-tags="home hardening security door reinforcement window film motion lighting safe cameras local storage nvr alarm ring sidewalk privacy">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">🏠</div>
+              <div class="acc-title">
+                <span>IX. Home Hardening &amp; Security</span>
+                <small>Physical hardening first. Surveillance second — local-first by default.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>Physical Security</h4>
+                <ul>
+                  <li>Reinforced door hardware (strike plates + long screws, jamb kits)</li>
+                  <li>Security film for windows (3M / Llumar — anchoring matters)</li>
+                  <li>Motion lighting (hardwired preferred)</li>
+                  <li>Safes (UL/TL ratings matter more than marketing)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Surveillance (Local-First)</h4>
+                <ul>
+                  <li><a class="ext" href="https://ui.com/physical-security" target="_blank" rel="noopener">Ubiquiti UniFi Protect</a></li>
+                  <li><a class="ext" href="https://reolink.com/product-category/security-camera-system/" target="_blank" rel="noopener">Reolink NVR Systems</a></li>
+                  <li>Privacy posture: VLAN + disable P2P relay where possible</li>
+                  <li>Alarm systems: pro monitoring vs self-monitor tradeoffs</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Ring / Mesh Network Note</h4>
+                <p>
+                  If you use Ring/Echo, understand Amazon Sidewalk (neighborhood mesh) and disable it if it doesn’t fit your risk model.
+                </p>
+                <ul>
+                  <li><a class="ext" href="https://ring.com/support/articles/nzhv0/Turning-the-Amazon-Sidewalk-Feature-On-or-Off" target="_blank" rel="noopener">Ring: Turn Amazon Sidewalk on/off</a></li>
+                  <li><a class="ext" href="https://www.eff.org/deeplinks/2021/06/understanding-amazon-sidewalk" target="_blank" rel="noopener">EFF: Understanding Amazon Sidewalk</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Door hardening + window film + motion lighting.
+              <span class="badge warn">Reality</span> Cloud cams can fail in outages and expand privacy risk.
+            </div>
+          </div>
+        </div>
+
+        <!-- X. COMMUNITY -->
+        <div class="acc-item" id="community" data-tags="community skills education courses cert meetup mutual aid cert trade skills gardening homesteading">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">🤝</div>
+              <div class="acc-title">
+                <span>X. Community &amp; Skill Building</span>
+                <small>Capability + cohesion beats isolation. Skills are portable assets.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>Education</h4>
+                <ul>
+                  <li><a class="ext" href="https://www.coursera.org/" target="_blank" rel="noopener">Coursera</a> / <a class="ext" href="https://www.udemy.com/" target="_blank" rel="noopener">Udemy</a></li>
+                  <li>Homesteading courses (local extension + credible instructors)</li>
+                  <li>Gardening courses (Master Gardener / community programs)</li>
+                  <li><a class="ext" href="https://www.apprenticeship.gov/" target="_blank" rel="noopener">Apprenticeship.gov</a> (trade pathways)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Community Platforms</h4>
+                <ul>
+                  <li><a class="ext" href="https://www.meetup.com/" target="_blank" rel="noopener">Meetup</a></li>
+                  <li><a class="ext" href="https://www.eventbrite.com/" target="_blank" rel="noopener">Eventbrite</a></li>
+                  <li><a class="ext" href="https://timebanks.org/" target="_blank" rel="noopener">TimeBanks</a></li>
+                  <li>Mutual aid directories (local networks)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Actionable</h4>
+                <ul>
+                  <li>Join CERT</li>
+                  <li>Get CPR + Stop The Bleed</li>
+                  <li>Know 5 neighbors by name</li>
+                  <li>Build a contact tree</li>
+                </ul>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> CERT + one trade skill + a real local network.
+            </div>
+          </div>
+        </div>
+
+        <!-- XI. INFORMATION -->
+        <div class="acc-item" id="signal" data-tags="information signal intelligence news rss feedly inoreader ground news allsides osint disaster monitoring noaa usgs fema watch duty firms inciweb airnow freightos fred ism">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">🛰️</div>
+              <div class="acc-title">
+                <span>XI. Information &amp; Signal</span>
+                <small>Primary data, cross-verification, and calm routines. Avoid rumor traps.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>Independent Aggregation</h4>
+                <ul>
+                  <li><a class="ext" href="https://ground.news/" target="_blank" rel="noopener">Ground News</a></li>
+                  <li><a class="ext" href="https://www.allsides.com/" target="_blank" rel="noopener">AllSides</a></li>
+                  <li><a class="ext" href="https://feedly.com/" target="_blank" rel="noopener">Feedly (RSS)</a></li>
+                  <li><a class="ext" href="https://www.inoreader.com/" target="_blank" rel="noopener">Inoreader (RSS)</a></li>
+                </ul>
+                <p>RSS &gt; algorithms for long-term signal hygiene.</p>
+              </div>
+              <div class="subcard">
+                <h4>OSINT &amp; Verification</h4>
+                <ul>
+                  <li><a class="ext" href="https://www.bellingcat.com/resources/" target="_blank" rel="noopener">Bellingcat resources</a></li>
+                  <li><a class="ext" href="https://www.marinetraffic.com/" target="_blank" rel="noopener">MarineTraffic</a></li>
+                  <li><a class="ext" href="https://www.flightradar24.com/" target="_blank" rel="noopener">Flightradar24</a></li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Disaster Monitoring</h4>
+                <ul>
+                  <li><a class="ext" href="https://www.weather.gov/" target="_blank" rel="noopener">NOAA / NWS</a></li>
+                  <li><a class="ext" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener">USGS Earthquake Map</a></li>
+                  <li><a class="ext" href="https://www.fema.gov/mobile-app" target="_blank" rel="noopener">FEMA App</a></li>
+                  <li><a class="ext" href="https://www.watchduty.org/" target="_blank" rel="noopener">Watch Duty</a></li>
+                  <li><a class="ext" href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a></li>
+                  <li><a class="ext" href="https://inciweb.nwcg.gov/" target="_blank" rel="noopener">InciWeb</a></li>
+                  <li><a class="ext" href="https://www.airnow.gov/" target="_blank" rel="noopener">AirNow</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="grid" style="margin-top:14px;">
+              <div class="subcard" style="grid-column: 1 / -1;">
+                <h4>Supply Chain Monitoring</h4>
+                <ul>
+                  <li><a class="ext" href="https://www.freightos.com/freight-resources/freightos-baltic-index-fbx/" target="_blank" rel="noopener">Freightos Baltic Index (FBX)</a></li>
+                  <li><a class="ext" href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED</a></li>
+                  <li><a class="ext" href="https://www.ismworld.org/supply-management-news-and-reports/reports/ism-report-on-business/" target="_blank" rel="noopener">ISM Report on Business</a></li>
+                </ul>
+                <p>Use as early indicators, not doom fuel.</p>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Local alerts + NOAA + a curated RSS dashboard.
+              <span class="badge warn">Rule</span> Set check windows. Don’t doom scroll.
+            </div>
+          </div>
+        </div>
+
+        <!-- XII. PERSONAL -->
+        <div class="acc-item" id="personal" data-tags="personal resilience physical mental stoic rucking strength training sleep stress journaling">
+          <button class="acc-head" type="button" aria-expanded="false">
+            <div class="acc-left">
+              <div class="icon">🧱</div>
+              <div class="acc-title">
+                <span>XII. Personal Resilience</span>
+                <small>Capacity is the multiplier. Build calm strength and decision stamina.</small>
+              </div>
+            </div>
+            <div class="chev" aria-hidden="true">⌄</div>
+          </button>
+          <div class="acc-body">
+            <div class="grid">
+              <div class="subcard">
+                <h4>Physical</h4>
+                <ul>
+                  <li>Strength training (dumbbells/kettlebells + simple programs)</li>
+                  <li>Rucking (progressive load, joint-safe progression)</li>
+                  <li>Environmental readiness (layers, footwear, exposure tolerance)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Mental</h4>
+                <ul>
+                  <li>Stoic philosophy (Meditations, Seneca)</li>
+                  <li>Stress management (breathing, sleep discipline)</li>
+                  <li>Journaling systems (clear thinking under stress)</li>
+                </ul>
+              </div>
+              <div class="subcard">
+                <h4>Discipline</h4>
+                <ul>
+                  <li>Routine under constraint</li>
+                  <li>Information boundaries</li>
+                  <li>Voluntary discomfort (progressive, not reckless)</li>
+                </ul>
+              </div>
+            </div>
+            <div class="note">
+              <span class="badge ok">Best default</span> Train 3×/week + walk daily + protect sleep.
+              <span class="badge warn">Reality</span> Panic and fatigue break plans faster than scarcity.
             </div>
           </div>
         </div>
 
       </div>
 
-      <div class="section-title">Quick Categories</div>
-      <div class="cards" aria-label="Category cards">
-        <div class="card">
-          <div class="top">
-            <h3>Water</h3><span style="color:var(--muted2)">↗</span>
-          </div>
-          <ul>
-            <li><a href="#water">Filtration</a></li>
-            <li><a href="#water">Storage</a></li>
-            <li><a href="#water">Testing</a></li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="top">
-            <h3>Food</h3><span style="color:var(--muted2)">↗</span>
-          </div>
-          <ul>
-            <li><a href="#food">Long-term storage</a></li>
-            <li><a href="#food">Preservation</a></li>
-            <li><a href="#food">Off-grid cooking</a></li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="top">
-            <h3>Energy</h3><span style="color:var(--muted2)">↗</span>
-          </div>
-          <ul>
-            <li><a href="#energy">Backup power</a></li>
-            <li><a href="#energy">Solar</a></li>
-            <li><a href="#energy">Lighting</a></li>
-          </ul>
-        </div>
-        <div class="card">
-          <div class="top">
-            <h3>Digital</h3><span style="color:var(--muted2)">↗</span>
-          </div>
-          <ul>
-            <li><a href="#digital">Secure comms</a></li>
-            <li><a href="#digital">Privacy</a></li>
-            <li><a href="#digital">Data security</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="section-title" id="signal">Signal</div>
+      <div class="section-title">Quick Signal Links</div>
       <div class="panel" style="padding:18px;">
-        <div style="color:var(--muted); font-size:14px; line-height:1.55;">
-          Curated relevance. Not a news feed. Use this section to link credible, high-signal articles and dashboards that justify each category.
+        <div style="color:var(--muted); font-size:14px; line-height:1.65;">
+          This isn’t a news feed. It’s an operations desk: primary data + a few bias-aware aggregators.
           <ul style="margin:10px 0 0; color:var(--muted);">
-            <li><a href="#">Water infrastructure failures (examples)</a></li>
-            <li><a href="#">Grid reliability reports</a></li>
-            <li><a href="#">Privacy / surveillance policy changes</a></li>
-            <li><a href="#">Supply chain disruption trackers</a></li>
+            <li><a class="ext" href="https://www.weather.gov/" target="_blank" rel="noopener">NOAA / NWS</a> — weather alerts and radar</li>
+            <li><a class="ext" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener">USGS Earthquake Map</a> — seismic activity</li>
+            <li><a class="ext" href="https://inciweb.nwcg.gov/" target="_blank" rel="noopener">InciWeb</a> — wildfire incidents</li>
+            <li><a class="ext" href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener">NASA FIRMS</a> — satellite fire detection</li>
+            <li><a class="ext" href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED</a> — macro indicators</li>
           </ul>
+
+          <div class="note" style="margin-top:14px;">
+            <b>Disclosure:</b> This site is informational and not medical, legal, or financial advice. Verify local laws, safety standards,
+            and product specifications. In emergencies, follow official guidance and professional responders.
+          </div>
         </div>
       </div>
     </section>
@@ -643,7 +1009,7 @@
         <div style="display:flex; gap:16px; align-items:center;">
           <a href="#top">Top</a>
           <a href="#index">Index</a>
-          <a href="#">Contact</a>
+          <a href="#signal">Signal</a>
         </div>
       </div>
     </footer>
